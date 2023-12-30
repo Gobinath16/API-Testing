@@ -1,0 +1,35 @@
+import requests
+import openpyxl
+import base64
+import os
+import json
+def process_rows(starting_row=2):
+    workbook = openpyxl.load_workbook("Path of the input workbook")               //  Here need to provide the Local path of excel file that contains the end points
+    sheet = workbook.active
+    base_url = 'https://url.com'
+    username = 'User Name'
+    password = 'Password'
+    headers = {
+        'Authorization': f'Basic {base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("utf-8")}'
+    }
+    try:
+        for row_number in range(starting_row, sheet.max_row + 1):
+            folder_name = sheet.cell(row=row_number, column=1).value
+            file_name = sheet.cell(row=row_number, column=2).value
+            id_from_excel = sheet.cell(row=row_number, column=3).value
+            api_endpoint = f'{base_url}{id_from_excel}'
+            response = requests.get(api_endpoint, headers=headers)
+            sheet.cell(row=row_number, column=4, value=response.status_code)
+            workbook.save("Path of the input workbook")                                      //  Here need to provide the Local path of excel file 
+            if response.status_code == 200:
+                folder_path = os.path.join(Path to save the response as an excel file", folder_name)            // Need to provide the path to save the response as an JSON file 
+                os.makedirs(folder_path, exist_ok=True)
+                file_path = os.path.join(folder_path, f'{file_name}.json')
+                with open(file_path, 'w') as file:
+                    json.dump(response.json(), file, indent=4)
+                print(f"Response for {api_endpoint} saved to {file_path}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally: 
+        workbook.close()
+process_rows(starting_row=2)
