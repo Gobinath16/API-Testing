@@ -10,7 +10,7 @@ def process_rows(starting_row=2):
     username = 'User Name'
     password = 'Password'
     headers = {
-        'Authorization': f'Basic {base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("utf-8")}'
+        'Authorization': f'Basic {base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("utf-8")}'     // Authentication Section    
     }
     try:
         for row_number in range(starting_row, sheet.max_row + 1):
