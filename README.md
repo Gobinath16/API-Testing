@@ -1,1 +1,1 @@
-# API
+Description: API Test is a Python-based Script  designed to facilitate bulk API testing. This tool takes inputs from an Excel sheet and saves the response of each API, along with the API name, in a specified format locally. Additionally, it writes the response code for each API endpoint back into the Excel sheet.
